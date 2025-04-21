@@ -1,10 +1,12 @@
 package com.example.releases.http;
 
-import com.example.releases.domain.ReleaseRepository;
+import com.example.http.CollectionResponse;
 import com.example.releases.domain.Release;
+import com.example.releases.domain.ReleaseRepository;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
+import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
 import jakarta.validation.Valid;
 
@@ -20,12 +22,17 @@ public class ReleaseController {
     @Post
     public HttpResponse<Release> create(@Body @Valid CreateReleaseRequest request) {
         Release release = new Release(
-            request.title(),
-            request.albumArtist(),
-            request.medium()
+                request.title(),
+                request.albumArtist(),
+                request.medium()
         );
-        
+
         Release savedRelease = releaseRepository.save(release);
         return HttpResponse.created(savedRelease);
+    }
+
+    @Get
+    public CollectionResponse<Release> getAllReleases() {
+        return new CollectionResponse<>(releaseRepository.findAll());
     }
 }
