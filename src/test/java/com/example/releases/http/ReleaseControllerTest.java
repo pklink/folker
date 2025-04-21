@@ -2,7 +2,7 @@ package com.example.releases.http;
 
 import com.example.releases.domain.Medium;
 import com.example.releases.domain.Release;
-import com.example.releases.domain.ReleaseRepository;
+import com.example.releases.domain.ReleaseService;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -24,15 +25,15 @@ import static org.mockito.Mockito.*;
 public class ReleaseControllerTest {
 
     @Inject
-    private ReleaseRepository releaseRepository;
+    private ReleaseService releaseService;
 
     @Inject
     @Client("/")
     HttpClient client;
 
-    @MockBean(ReleaseRepository.class)
-    ReleaseRepository releaseRepository() {
-        return mock(ReleaseRepository.class);
+    @MockBean(ReleaseService.class)
+    ReleaseService releaseRepository() {
+        return mock(ReleaseService.class);
     }
 
     @Test
@@ -42,7 +43,7 @@ public class ReleaseControllerTest {
         Release release2 = new Release("2", "Album 2", "Artist 2", Medium.VINYL);
         List<Release> releases = List.of(release1, release2);
 
-        when(releaseRepository.findAll()).thenReturn(releases);
+        when(releaseService.findAll()).thenReturn(releases);
 
         // act
         HttpRequest<?> request = HttpRequest.GET("/releases");
@@ -64,7 +65,7 @@ public class ReleaseControllerTest {
         assertEquals(Medium.VINYL, response.body().items().get(1).medium());
 
         // Verify repository was called
-        verify(releaseRepository).findAll();
+        verify(releaseService).findAll();
     }
 
     @Test
@@ -73,7 +74,7 @@ public class ReleaseControllerTest {
         CreateReleaseRequest requestBody = new CreateReleaseRequest("New Album", "New Artist", Medium.CD);
         Release savedRelease = new Release("1", "New Album", "New Artist", Medium.CD);
 
-        when(releaseRepository.save(any(Release.class))).thenReturn(savedRelease);
+        when(releaseService.save(any(Release.class))).thenReturn(savedRelease);
 
         // act
         HttpRequest<?> request = HttpRequest.POST("/releases", requestBody);
@@ -108,5 +109,47 @@ public class ReleaseControllerTest {
         );
 
         assertEquals(HttpStatus.BAD_REQUEST, result.getStatus());
+    }
+
+    @Test
+    void getReleaseById_shouldReturnRelease_whenIdExists() {
+        // arrange
+        String releaseId = "123";
+        Release release = new Release(releaseId, "Found Album", "Found Artist", Medium.CD);
+
+        when(releaseService.findById(releaseId)).thenReturn(Optional.of(release));
+
+        // act
+        HttpRequest<?> request = HttpRequest.GET("/releases/" + releaseId);
+        HttpResponse<Release> response = client
+                .toBlocking()
+                .exchange(request, Release.class);
+
+        // assert
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.status());
+
+        assertNotNull(response.body());
+        assertEquals(releaseId, response.body().id());
+        assertEquals("Found Album", response.body().title());
+        assertEquals("Found Artist", response.body().albumArtist());
+        assertEquals(Medium.CD, response.body().medium());
+    }
+
+    @Test
+    void getReleaseById_shouldReturn404_whenIdDoesNotExist() {
+        // arrange
+        String nonExistentId = "999";
+
+        when(releaseService.findById(nonExistentId)).thenReturn(Optional.empty());
+
+        // act & assert
+        HttpRequest<?> request = HttpRequest.GET("/releases/" + nonExistentId);
+        HttpClientResponseException exception = assertThrows(
+                HttpClientResponseException.class,
+                () -> client.toBlocking().exchange(request, Release.class)
+        );
+
+        assertEquals(HttpStatus.NOT_FOUND, exception.getStatus());
     }
 }
