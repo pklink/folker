@@ -1,0 +1,15 @@
+meta {
+  name: delete /releases/:id
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{baseUrl}}/releases/:id
+  body: none
+  auth: none
+}
+
+params:path {
+  id: 
+}

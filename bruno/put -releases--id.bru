@@ -1,0 +1,21 @@
+meta {
+  name: put /releases/:id
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseUrl}}/releases/:id
+  body: json
+  auth: none
+}
+
+params:path {
+  id: 
+}
+
+body:json {
+  {
+    "id": "asda"  
+  }
+}

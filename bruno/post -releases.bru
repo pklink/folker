@@ -1,0 +1,19 @@
+meta {
+  name: post /releases
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/releases
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "title": "Abbey Road",
+    "albumArtist": "The Beatles",
+    "medium": "VINYL"
+  }
+}
