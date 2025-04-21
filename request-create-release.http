@@ -1,0 +1,9 @@
+### Create a new release
+POST http://localhost:8080/releases
+Content-Type: application/json
+
+{
+  "title": "Dark Side of the Moon",
+  "albumArtist": "Pink Floyd",
+  "medium": "VINYL"
+}
