@@ -1,5 +1,7 @@
-package com.example;
+package com.example.releases.http;
 
+import com.example.releases.domain.ReleaseRepository;
+import com.example.releases.domain.Release;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;

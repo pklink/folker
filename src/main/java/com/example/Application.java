@@ -1,7 +1,9 @@
 package com.example;
 
 import io.micronaut.runtime.Micronaut;
+import org.springframework.modulith.Modulith;
 
+@Modulith
 public class Application {
 
     public static void main(String[] args) {
