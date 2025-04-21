@@ -1,6 +1,5 @@
 package com.example.releases.http;
 
-import com.example.http.CollectionResponse;
 import com.example.releases.domain.Release;
 import com.example.releases.domain.ReleaseRepository;
 import io.micronaut.http.HttpResponse;
@@ -32,7 +31,7 @@ public class ReleaseController {
     }
 
     @Get
-    public CollectionResponse<Release> getAllReleases() {
-        return new CollectionResponse<>(releaseRepository.findAll());
+    public ListReleaseResponse getAllReleases() {
+        return new ListReleaseResponse(releaseRepository.findAll());
     }
 }
