@@ -1,8 +1,5 @@
-package com.example.releases.http;
+package net.einself.folker.releases.http;
 
-import com.example.releases.domain.Medium;
-import com.example.releases.domain.Release;
-import com.example.releases.domain.ReleaseService;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;
@@ -12,6 +9,9 @@ import io.micronaut.http.client.exceptions.HttpClientResponseException;
 import io.micronaut.test.annotation.MockBean;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
+import net.einself.folker.releases.domain.Medium;
+import net.einself.folker.releases.domain.Release;
+import net.einself.folker.releases.domain.ReleaseService;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

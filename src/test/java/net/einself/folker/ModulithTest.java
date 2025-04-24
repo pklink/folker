@@ -1,4 +1,4 @@
-package com.example;
+package net.einself.folker;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.modulith.core.ApplicationModules;

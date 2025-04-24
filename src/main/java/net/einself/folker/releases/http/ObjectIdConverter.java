@@ -1,4 +1,4 @@
-package com.example.releases.http;
+package net.einself.folker.releases.http;
 
 import io.micronaut.core.convert.ConversionContext;
 import io.micronaut.core.convert.TypeConverter;

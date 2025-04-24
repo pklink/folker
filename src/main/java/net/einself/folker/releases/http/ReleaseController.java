@@ -1,11 +1,11 @@
-package com.example.releases.http;
+package net.einself.folker.releases.http;
 
-import com.example.releases.domain.Release;
-import com.example.releases.domain.ReleaseService;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.*;
 import io.micronaut.http.exceptions.HttpStatusException;
 import jakarta.validation.Valid;
+import net.einself.folker.releases.domain.Release;
+import net.einself.folker.releases.domain.ReleaseService;
 import org.bson.types.ObjectId;
 
 import static io.micronaut.http.HttpStatus.NOT_FOUND;

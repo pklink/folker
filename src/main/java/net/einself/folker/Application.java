@@ -1,4 +1,4 @@
-package com.example;
+package net.einself.folker;
 
 import io.micronaut.runtime.Micronaut;
 import org.springframework.modulith.Modulith;

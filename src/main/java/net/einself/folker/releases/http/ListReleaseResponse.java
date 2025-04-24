@@ -1,7 +1,7 @@
-package com.example.releases.http;
+package net.einself.folker.releases.http;
 
-import com.example.releases.domain.Release;
 import io.micronaut.serde.annotation.Serdeable;
+import net.einself.folker.releases.domain.Release;
 
 import java.util.List;
 

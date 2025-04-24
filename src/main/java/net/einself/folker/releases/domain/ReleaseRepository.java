@@ -1,4 +1,4 @@
-package com.example.releases.domain;
+package net.einself.folker.releases.domain;
 
 import io.micronaut.data.mongodb.annotation.MongoRepository;
 import io.micronaut.data.repository.CrudRepository;

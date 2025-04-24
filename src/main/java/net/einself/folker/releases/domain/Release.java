@@ -1,5 +1,5 @@
 
-package com.example.releases.domain;
+package net.einself.folker.releases.domain;
 
 import io.micronaut.data.annotation.GeneratedValue;
 import io.micronaut.data.annotation.Id;

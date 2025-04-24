@@ -1,4 +1,4 @@
-package com.example.releases.domain;
+package net.einself.folker.releases.domain;
 
 import jakarta.inject.Singleton;
 import org.bson.types.ObjectId;
