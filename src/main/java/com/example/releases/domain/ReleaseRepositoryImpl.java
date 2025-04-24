@@ -1,6 +1,7 @@
 package com.example.releases.domain;
 
 import jakarta.inject.Singleton;
+import org.bson.types.ObjectId;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +21,7 @@ class ReleaseRepositoryImpl implements ReleaseService {
     }
 
     @Override
-    public Optional<Release> findById(String id) {
+    public Optional<Release> findById(ObjectId id) {
         return releaseRepository.findById(id);
     }
 

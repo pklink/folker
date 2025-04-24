@@ -6,6 +6,7 @@ import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.*;
 import io.micronaut.http.exceptions.HttpStatusException;
 import jakarta.validation.Valid;
+import org.bson.types.ObjectId;
 
 import static io.micronaut.http.HttpStatus.NOT_FOUND;
 
@@ -36,7 +37,7 @@ public class ReleaseController {
     }
 
     @Get("/{id}")
-    public Release getReleaseById(@PathVariable String id) {
+    public Release getReleaseById(@PathVariable ObjectId id) {
         return releaseService.findById(id)
                 .orElseThrow(() -> new HttpStatusException(NOT_FOUND, "Release not found"));
     }

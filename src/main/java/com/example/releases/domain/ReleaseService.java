@@ -1,5 +1,7 @@
 package com.example.releases.domain;
 
+import org.bson.types.ObjectId;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +20,7 @@ public interface ReleaseService {
      * @param id the release ID
      * @return an Optional containing the release if found, or empty if not found
      */
-    Optional<Release> findById(String id);
+    Optional<Release> findById(ObjectId id);
 
     /**
      * Find all releases

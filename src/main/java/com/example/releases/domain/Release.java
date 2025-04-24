@@ -7,13 +7,14 @@ import io.micronaut.data.annotation.MappedEntity;
 import io.micronaut.serde.annotation.Serdeable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.bson.types.ObjectId;
 
 @Serdeable
 @MappedEntity
 public record Release(
         @Id
         @GeneratedValue
-        String id,
+        ObjectId id,
 
         @NotBlank
         String title,

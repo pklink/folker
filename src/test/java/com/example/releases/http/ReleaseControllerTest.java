@@ -12,6 +12,8 @@ import io.micronaut.http.client.exceptions.HttpClientResponseException;
 import io.micronaut.test.annotation.MockBean;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
+import org.bson.types.ObjectId;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -36,120 +38,135 @@ public class ReleaseControllerTest {
         return mock(ReleaseService.class);
     }
 
-    @Test
-    void getAllReleases_shouldReturnAllReleases() {
-        // arrange
-        Release release1 = new Release("1", "Album 1", "Artist 1", Medium.CD);
-        Release release2 = new Release("2", "Album 2", "Artist 2", Medium.VINYL);
-        List<Release> releases = List.of(release1, release2);
+    @Nested
+    class FindAll {
 
-        when(releaseService.findAll()).thenReturn(releases);
+        @Test
+        void getAllReleases_shouldReturnAllReleases() {
+            // arrange
+            Release release1 = new Release("Album 1", "Artist 1", Medium.CD);
+            Release release2 = new Release("Album 2", "Artist 2", Medium.VINYL);
+            List<Release> releases = List.of(release1, release2);
 
-        // act
-        HttpRequest<?> request = HttpRequest.GET("/releases");
-        HttpResponse<ListReleaseResponse> response = client
-                .toBlocking()
-                .exchange(request, ListReleaseResponse.class);
+            when(releaseService.findAll()).thenReturn(releases);
 
-        // assert
-        assertNotNull(response);
-        assertEquals(HttpStatus.OK, response.status());
+            // act
+            HttpRequest<?> request = HttpRequest.GET("/releases");
+            HttpResponse<ListReleaseResponse> response = client
+                    .toBlocking()
+                    .exchange(request, ListReleaseResponse.class);
 
-        assertNotNull(response.body());
-        assertEquals(2, response.body().items().size());
-        assertEquals("Album 1", response.body().items().getFirst().title());
-        assertEquals("Artist 1", response.body().items().getFirst().albumArtist());
-        assertEquals(Medium.CD, response.body().items().getFirst().medium());
-        assertEquals("Album 2", response.body().items().get(1).title());
-        assertEquals("Artist 2", response.body().items().get(1).albumArtist());
-        assertEquals(Medium.VINYL, response.body().items().get(1).medium());
+            // assert
+            assertNotNull(response);
+            assertEquals(HttpStatus.OK, response.status());
 
-        // Verify repository was called
-        verify(releaseService).findAll();
+            assertNotNull(response.body());
+            assertEquals(2, response.body().items().size());
+            assertEquals("Album 1", response.body().items().getFirst().title());
+            assertEquals("Artist 1", response.body().items().getFirst().albumArtist());
+            assertEquals(Medium.CD, response.body().items().getFirst().medium());
+            assertEquals("Album 2", response.body().items().get(1).title());
+            assertEquals("Artist 2", response.body().items().get(1).albumArtist());
+            assertEquals(Medium.VINYL, response.body().items().get(1).medium());
+
+            // Verify repository was called
+            verify(releaseService).findAll();
+        }
+
     }
 
-    @Test
-    void create_shouldCreateAndReturnRelease() {
-        // arrange
-        CreateReleaseRequest requestBody = new CreateReleaseRequest("New Album", "New Artist", Medium.CD);
-        Release savedRelease = new Release("1", "New Album", "New Artist", Medium.CD);
+    @Nested
+    class FindOne {
 
-        when(releaseService.save(any(Release.class))).thenReturn(savedRelease);
+        @Test
+        void getReleaseById_shouldReturnRelease_whenIdExists() {
+            // arrange
+            String releaseIdStr = "507f1f77bcf86cd799439011";
+            ObjectId releaseId = new ObjectId(releaseIdStr);
+            Release release = new Release(releaseId, "Found Album", "Found Artist", Medium.CD);
 
-        // act
-        HttpRequest<?> request = HttpRequest.POST("/releases", requestBody);
-        HttpResponse<Release> result = client.toBlocking().exchange(request, Release.class);
+            when(releaseService.findById(releaseId)).thenReturn(Optional.of(release));
 
-        // assert
-        assertNotNull(result);
-        assertEquals(HttpStatus.CREATED, result.status());
+            // act
+            HttpResponse<Release> response = client.toBlocking()
+                    .exchange(HttpRequest.GET("/releases/%s".formatted(releaseIdStr)), Release.class);
 
-        assertNotNull(result.body());
-        assertEquals("1", result.body().id());
-        assertEquals("New Album", result.body().title());
-        assertEquals("New Artist", result.body().albumArtist());
-        assertEquals(Medium.CD, result.body().medium());
+            // assert
+            assertNotNull(response);
+            assertEquals(HttpStatus.OK, response.status());
+
+            assertNotNull(response.body());
+            assertEquals(releaseId.toString(), response.body().id().toString());
+            assertEquals("Found Album", response.body().title());
+            assertEquals("Found Artist", response.body().albumArtist());
+            assertEquals(Medium.CD, response.body().medium());
+        }
+
+        @Test
+        void getReleaseById_shouldReturn404_whenIdDoesNotExist() {
+            // arrange
+            String nonExistentIdStr = "507f1f77bcf86cd799439012";
+            ObjectId nonExistentId = new ObjectId(nonExistentIdStr);
+
+            when(releaseService.findById(nonExistentId)).thenReturn(Optional.empty());
+
+            // act & assert
+            HttpRequest<?> request = HttpRequest.GET("/releases/" + nonExistentIdStr);
+            HttpClientResponseException exception = assertThrows(
+                    HttpClientResponseException.class,
+                    () -> client.toBlocking().exchange(request, Release.class)
+            );
+
+            assertEquals(HttpStatus.NOT_FOUND, exception.getStatus());
+        }
     }
 
-    @Test
-    void create_shouldReturn400_whenRequestIsInvalid() {
-        // arrange
-        Map<String, Object> invalidRequest = Map.of(
-                // Missing title field
-                "albumArtist", "Artist Name",
-                "medium", Medium.CD
-        );
+    @Nested
+    class CreateOne {
 
-        HttpRequest<?> request = HttpRequest.POST("/releases", invalidRequest);
+        @Test
+        void create_shouldCreateAndReturnRelease() {
+            // arrange
+            CreateReleaseRequest requestBody = new CreateReleaseRequest("New Album", "New Artist", Medium.CD);
 
-        // act & assert
-        HttpClientResponseException result = assertThrows(
-                HttpClientResponseException.class,
-                () -> client.toBlocking().exchange(request, Release.class)
-        );
+            Release savedRelease = new Release(new ObjectId("68094bbdacdf712dc786c0a8"), "New Album", "New Artist", Medium.CD);
+            when(releaseService.save(any(Release.class))).thenReturn(savedRelease);
 
-        assertEquals(HttpStatus.BAD_REQUEST, result.getStatus());
+            // act
+            HttpRequest<?> request = HttpRequest.POST("/releases", requestBody);
+            HttpResponse<Release> result = client.toBlocking().exchange(request, Release.class);
+
+            // assert
+            assertNotNull(result);
+            assertEquals(HttpStatus.CREATED, result.status());
+
+            assertNotNull(result.body());
+            assertEquals("68094bbdacdf712dc786c0a8", result.body().id().toHexString());
+            assertEquals("New Album", result.body().title());
+            assertEquals("New Artist", result.body().albumArtist());
+            assertEquals(Medium.CD, result.body().medium());
+        }
+
+        @Test
+        void create_shouldReturn400_whenRequestIsInvalid() {
+            // arrange
+            Map<String, Object> invalidRequest = Map.of(
+                    // Missing title field
+                    "albumArtist", "Artist Name",
+                    "medium", Medium.CD
+            );
+
+            HttpRequest<?> request = HttpRequest.POST("/releases", invalidRequest);
+
+            // act & assert
+            HttpClientResponseException result = assertThrows(
+                    HttpClientResponseException.class,
+                    () -> client.toBlocking().exchange(request, Release.class)
+            );
+
+            assertEquals(HttpStatus.BAD_REQUEST, result.getStatus());
+        }
+
     }
 
-    @Test
-    void getReleaseById_shouldReturnRelease_whenIdExists() {
-        // arrange
-        String releaseId = "123";
-        Release release = new Release(releaseId, "Found Album", "Found Artist", Medium.CD);
-
-        when(releaseService.findById(releaseId)).thenReturn(Optional.of(release));
-
-        // act
-        HttpRequest<?> request = HttpRequest.GET("/releases/" + releaseId);
-        HttpResponse<Release> response = client
-                .toBlocking()
-                .exchange(request, Release.class);
-
-        // assert
-        assertNotNull(response);
-        assertEquals(HttpStatus.OK, response.status());
-
-        assertNotNull(response.body());
-        assertEquals(releaseId, response.body().id());
-        assertEquals("Found Album", response.body().title());
-        assertEquals("Found Artist", response.body().albumArtist());
-        assertEquals(Medium.CD, response.body().medium());
-    }
-
-    @Test
-    void getReleaseById_shouldReturn404_whenIdDoesNotExist() {
-        // arrange
-        String nonExistentId = "999";
-
-        when(releaseService.findById(nonExistentId)).thenReturn(Optional.empty());
-
-        // act & assert
-        HttpRequest<?> request = HttpRequest.GET("/releases/" + nonExistentId);
-        HttpClientResponseException exception = assertThrows(
-                HttpClientResponseException.class,
-                () -> client.toBlocking().exchange(request, Release.class)
-        );
-
-        assertEquals(HttpStatus.NOT_FOUND, exception.getStatus());
-    }
 }
