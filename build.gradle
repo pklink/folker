@@ -14,6 +14,11 @@ repositories {
 dependencies {
     annotationProcessor("io.micronaut:micronaut-http-validation")
 
+    implementation("io.micronaut.reactor:micronaut-reactor")
+
+    implementation("io.micronaut.nats:micronaut-nats")
+
+    // nats
     implementation("io.micronaut.validation:micronaut-validation")
 
     // json serialization
@@ -31,12 +36,16 @@ dependencies {
     implementation("io.micronaut.data:micronaut-data-mongodb")
     implementation("io.micronaut.mongodb:micronaut-mongo-sync")
 
+    // to use yaml configuration
+    runtimeOnly("org.yaml:snakeyaml")
+
     compileOnly("io.micronaut:micronaut-http-client")
     runtimeOnly("ch.qos.logback:logback-classic")
     testImplementation("io.micronaut:micronaut-http-client")
     testImplementation("org.mockito:mockito-core:5.8.0")
     testImplementation("org.mockito:mockito-junit-jupiter:5.8.0")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.1")
+
 }
 
 

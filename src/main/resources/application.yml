@@ -1,0 +1,5 @@
+micronaut.application.name: demo
+mongodb.uri: mongodb://root:password@localhost:27017/folker?authSource=admin
+nats:
+  default:
+    addresses: "nats://localhost:4222"

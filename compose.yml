@@ -1,4 +1,4 @@
-name: micronautdemo
+name: folker
 services:
   mongodb:
     image: mongo:latest
@@ -8,3 +8,11 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: password
       MONGO_INITDB_DATABASE: folker
+  nats:
+    image: nats:latest
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+    environment:
+      NATS_USER: admin
+      NATS_PASSWORD: secret
