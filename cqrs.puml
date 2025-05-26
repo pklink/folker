@@ -1,0 +1,22 @@
+@startuml
+
+actor Client
+participant ReleaseController
+participant ReleaseCommandHandler
+participant EventPublisher
+queue Nats
+participant ReleaseQueryHandler
+database Mongo
+
+Client -> ReleaseController: CreateReleaseRequestDto
+ReleaseController -> ReleaseCommandHandler : CreateReleaseCommand
+ReleaseCommandHandler -> EventPublisher : ReleaseCreatedEvent
+ReleaseController --> Client : CreateReleaseResponseDto
+
+
+EventPublisher -> Nats : ReleaseCreatedEvent
+
+Nats <- ReleaseQueryHandler : ReleaseCreatedEvent
+ReleaseQueryHandler -> Mongo : Release
+
+@enduml
