@@ -7,3 +7,6 @@ Content-Type: application/json
   "albumArtist": "Pink Floyd",
   "medium": "VINYL"
 }
+
+### Get releases
+GET http://localhost:8080/releases

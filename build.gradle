@@ -14,12 +14,11 @@ repositories {
 dependencies {
     annotationProcessor("io.micronaut:micronaut-http-validation")
 
-    implementation("io.micronaut.reactor:micronaut-reactor")
-
-    implementation("io.micronaut.nats:micronaut-nats")
-
-    // nats
+    implementation("io.micronaut:micronaut-context")
     implementation("io.micronaut.validation:micronaut-validation")
+
+    implementation("org.jmolecules:jmolecules-ddd:1.10.0")
+    implementation("org.jmolecules:jmolecules-layered-architecture:1.10.0")
 
     // json serialization
     annotationProcessor("io.micronaut.serde:micronaut-serde-processor")

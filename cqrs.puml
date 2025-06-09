@@ -9,10 +9,12 @@ participant ReleaseQueryHandler
 database Mongo
 
 Client -> ReleaseController: CreateReleaseRequestDto
+activate ReleaseController
 ReleaseController -> ReleaseCommandHandler : CreateReleaseCommand
-ReleaseCommandHandler -> EventPublisher : ReleaseCreatedEvent
-ReleaseController --> Client : CreateReleaseResponseDto
+Client <- ReleaseController : CreateReleaseResponseDto
+deactivate ReleaseController
 
+ReleaseCommandHandler -> EventPublisher : ReleaseCreatedEvent
 
 EventPublisher -> Nats : ReleaseCreatedEvent
 
