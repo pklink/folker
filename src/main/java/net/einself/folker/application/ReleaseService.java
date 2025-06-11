@@ -1,7 +1,9 @@
 package net.einself.folker.application;
 
+import io.micronaut.context.event.ApplicationEventPublisher;
 import jakarta.inject.Singleton;
 import net.einself.folker.domain.entity.Release;
+import net.einself.folker.domain.events.ReleaseCreatedEvent;
 import net.einself.folker.domain.repository.ReleaseRepository;
 import org.jmolecules.architecture.layered.ApplicationLayer;
 
@@ -12,13 +14,18 @@ import java.util.List;
 public class ReleaseService {
 
     private final ReleaseRepository releaseRepository;
+    private final ApplicationEventPublisher<ReleaseCreatedEvent> releaseCreatedEventPublisher;
 
-    public ReleaseService(ReleaseRepository releaseRepository) {
+    public ReleaseService(ReleaseRepository releaseRepository, ApplicationEventPublisher<ReleaseCreatedEvent> releaseCreatedEventPublisher) {
         this.releaseRepository = releaseRepository;
+        this.releaseCreatedEventPublisher = releaseCreatedEventPublisher;
     }
 
     public Release create(Release release) {
-        return releaseRepository.save(release);
+        Release savedRelease = releaseRepository.save(release);
+        ReleaseCreatedEvent event = new ReleaseCreatedEvent(savedRelease.getId(), savedRelease.getTitle());
+        releaseCreatedEventPublisher.publishEvent(event);
+        return savedRelease;
     }
 
     public List<Release> findAll() {
