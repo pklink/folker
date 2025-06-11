@@ -1,8 +1,8 @@
-package net.einself.folker.infrastructure.repository;
+package net.einself.folker.release.infrastructure;
 
 import jakarta.inject.Singleton;
-import net.einself.folker.domain.entity.Release;
-import net.einself.folker.domain.repository.ReleaseRepository;
+import net.einself.folker.release.domain.Release;
+import net.einself.folker.release.domain.ReleaseRepository;
 import org.jmolecules.architecture.layered.InfrastructureLayer;
 
 import java.util.ArrayList;

@@ -1,10 +1,10 @@
-package net.einself.folker.application;
+package net.einself.folker.release.application;
 
 import io.micronaut.context.event.ApplicationEventPublisher;
 import jakarta.inject.Singleton;
-import net.einself.folker.domain.entity.Release;
-import net.einself.folker.domain.events.ReleaseCreatedEvent;
-import net.einself.folker.domain.repository.ReleaseRepository;
+import net.einself.folker.release.domain.Release;
+import net.einself.folker.release.domain.ReleaseCreatedEvent;
+import net.einself.folker.release.domain.ReleaseRepository;
 import org.jmolecules.architecture.layered.ApplicationLayer;
 
 import java.util.List;

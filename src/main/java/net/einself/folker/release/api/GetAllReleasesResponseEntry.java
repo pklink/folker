@@ -1,4 +1,4 @@
-package net.einself.folker.api.response;
+package net.einself.folker.release.api;
 
 import io.micronaut.serde.annotation.Serdeable;
 

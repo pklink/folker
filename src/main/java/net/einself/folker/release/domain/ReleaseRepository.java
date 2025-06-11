@@ -1,6 +1,5 @@
-package net.einself.folker.domain.repository;
+package net.einself.folker.release.domain;
 
-import net.einself.folker.domain.entity.Release;
 import org.jmolecules.ddd.annotation.Repository;
 
 import java.util.List;

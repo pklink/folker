@@ -1,8 +1,8 @@
-package net.einself.folker.infrastructure.repository;
+package net.einself.folker.artist.infrastructure;
 
 import jakarta.inject.Singleton;
-import net.einself.folker.domain.entity.Artist;
-import net.einself.folker.domain.repository.ArtistRepository;
+import net.einself.folker.artist.domain.Artist;
+import net.einself.folker.artist.domain.ArtistRepository;
 import org.jmolecules.architecture.layered.InfrastructureLayer;
 
 import java.util.ArrayList;

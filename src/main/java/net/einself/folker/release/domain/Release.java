@@ -1,4 +1,4 @@
-package net.einself.folker.domain.entity;
+package net.einself.folker.release.domain;
 
 
 import io.micronaut.core.util.StringUtils;

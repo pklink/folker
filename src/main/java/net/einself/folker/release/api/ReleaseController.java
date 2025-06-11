@@ -1,4 +1,4 @@
-package net.einself.folker.api.controller;
+package net.einself.folker.release.api;
 
 import io.micronaut.data.model.Page;
 import io.micronaut.data.model.Pageable;
@@ -7,11 +7,8 @@ import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
-import net.einself.folker.api.request.CreateReleaseRequest;
-import net.einself.folker.api.response.CreateReleaseResponse;
-import net.einself.folker.api.response.GetAllReleasesResponseEntry;
-import net.einself.folker.application.ReleaseService;
-import net.einself.folker.domain.entity.Release;
+import net.einself.folker.release.application.ReleaseService;
+import net.einself.folker.release.domain.Release;
 
 import java.util.List;
 

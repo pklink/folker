@@ -1,6 +1,5 @@
-package net.einself.folker.domain.repository;
+package net.einself.folker.artist.domain;
 
-import net.einself.folker.domain.entity.Artist;
 import org.jmolecules.ddd.annotation.Repository;
 
 import java.util.List;

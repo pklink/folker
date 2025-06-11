@@ -1,4 +1,4 @@
-package net.einself.folker.domain.events;
+package net.einself.folker.release.domain;
 
 import io.micronaut.serde.annotation.Serdeable;
 

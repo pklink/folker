@@ -1,4 +1,4 @@
-package net.einself.folker.domain.entity;
+package net.einself.folker.artist.domain;
 
 import org.jmolecules.ddd.annotation.AggregateRoot;
 

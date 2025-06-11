@@ -1,4 +1,4 @@
-package net.einself.folker.api.controller;
+package net.einself.folker.artist.api;
 
 import io.micronaut.data.model.Page;
 import io.micronaut.data.model.Pageable;
@@ -7,11 +7,8 @@ import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
-import net.einself.folker.api.request.CreateArtistRequest;
-import net.einself.folker.api.response.CreateArtistResponse;
-import net.einself.folker.api.response.GetAllArtistsResponseEntry;
-import net.einself.folker.application.ArtistService;
-import net.einself.folker.domain.entity.Artist;
+import net.einself.folker.artist.application.ArtistService;
+import net.einself.folker.artist.domain.Artist;
 
 import java.util.List;
 

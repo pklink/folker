@@ -1,10 +1,10 @@
-package net.einself.folker.application;
+package net.einself.folker.artist.application;
 
 import io.micronaut.context.event.ApplicationEventPublisher;
 import jakarta.inject.Singleton;
-import net.einself.folker.domain.entity.Artist;
-import net.einself.folker.domain.events.ArtistCreatedEvent;
-import net.einself.folker.domain.repository.ArtistRepository;
+import net.einself.folker.artist.domain.Artist;
+import net.einself.folker.artist.domain.ArtistCreatedEvent;
+import net.einself.folker.artist.domain.ArtistRepository;
 
 import java.util.List;
 
