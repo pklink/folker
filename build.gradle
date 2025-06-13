@@ -14,6 +14,11 @@ repositories {
 dependencies {
     annotationProcessor("io.micronaut:micronaut-http-validation")
 
+
+    // Rx
+    implementation("io.smallrye.reactive:mutiny:2.4.0")
+    implementation("io.micronaut.rxjava3:micronaut-rxjava3")
+
     implementation("io.micronaut:micronaut-context")
     implementation("io.micronaut.validation:micronaut-validation")
 
