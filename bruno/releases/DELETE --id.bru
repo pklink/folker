@@ -1,10 +1,10 @@
 meta {
-  name: get /releases/:id
+  name: DELETE /:id
   type: http
-  seq: 3
+  seq: 5
 }
 
-get {
+delete {
   url: {{baseUrl}}/releases/:id
   body: none
   auth: none

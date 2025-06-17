@@ -1,0 +1,15 @@
+meta {
+  name: GET /:id
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/releases/:id
+  body: none
+  auth: none
+}
+
+params:path {
+  id: 
+}

@@ -1,15 +1,21 @@
 meta {
-  name: delete /releases/:id
+  name: PUT /:id
   type: http
-  seq: 5
+  seq: 4
 }
 
-delete {
+put {
   url: {{baseUrl}}/releases/:id
-  body: none
+  body: json
   auth: none
 }
 
 params:path {
   id: 
+}
+
+body:json {
+  {
+    "id": "asda"  
+  }
 }

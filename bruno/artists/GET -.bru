@@ -1,0 +1,17 @@
+meta {
+  name: GET /
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/artists
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Pink Floyd"
+  }
+}
