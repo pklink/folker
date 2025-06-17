@@ -26,11 +26,11 @@ public class Release {
     }
 
     public Release(String title, String albumArtist, Set<UUID> artists) {
-        this(UUID.randomUUID(), albumArtist, title, artists);
+        this(UUID.randomUUID(), title, albumArtist, artists);
     }
 
     public Release(String title, String albumArtist) {
-        this(UUID.randomUUID(), albumArtist, title, new HashSet<>());
+        this(UUID.randomUUID(), title, albumArtist, new HashSet<>());
     }
 
     public UUID getId() {
