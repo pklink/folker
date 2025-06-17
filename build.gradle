@@ -16,8 +16,7 @@ dependencies {
 
 
     // Rx
-    implementation("io.smallrye.reactive:mutiny:2.4.0")
-    implementation("io.micronaut.rxjava3:micronaut-rxjava3")
+    implementation("io.micronaut.reactor:micronaut-reactor")
 
     implementation("io.micronaut:micronaut-context")
     implementation("io.micronaut.validation:micronaut-validation")

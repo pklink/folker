@@ -7,36 +7,38 @@ import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
+import net.einself.folker.release.application.ReleaseMapper;
 import net.einself.folker.release.application.ReleaseService;
-import net.einself.folker.release.domain.Release;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Controller("/releases")
 public class ReleaseController {
 
+    private final ReleaseMapper releaseMapper;
     private final ReleaseService releaseService;
 
-    public ReleaseController(ReleaseService releaseService) {
+    public ReleaseController(ReleaseMapper releaseMapper, ReleaseService releaseService) {
+        this.releaseMapper = releaseMapper;
         this.releaseService = releaseService;
     }
 
     @Post
-    public HttpResponse<CreateReleaseResponse> create(@Body CreateReleaseRequest request) {
-        Release release = new Release(request.title(), request.albumArtist());
-        releaseService.create(release);
-        CreateReleaseResponse response = new CreateReleaseResponse(release.getId(), release.getTitle(), release.getAlbumArtist());
-        return HttpResponse.ok(response);
+    public Mono<HttpResponse<CreateReleaseResponse>> create(@Body CreateReleaseRequest request) {
+        return Mono.just(request)
+                .map(releaseMapper::fromRequest)
+                .map(releaseService::create)
+                .map(releaseMapper::toCreateResponse)
+                .map(HttpResponse::ok);
     }
 
     @Get
-    public HttpResponse<Page<GetAllReleasesResponseEntry>> getAll() {
-        List<GetAllReleasesResponseEntry> releases = releaseService.findAll().stream()
-                .map(release -> new GetAllReleasesResponseEntry(release.getId(), release.getTitle(), release.getAlbumArtist(), "VINYL"))
-                .toList();
-
-        Page<GetAllReleasesResponseEntry> page = Page.of(releases, Pageable.UNPAGED, (long) releases.size());
-        return HttpResponse.ok(page);
+    public Mono<HttpResponse<Page<GetAllReleasesResponse>>> getAll() {
+        return Flux.fromStream(releaseService.findAll().stream())
+                .map(releaseMapper::toGetAllReleasesResponseEntry)
+                .collectList()
+                .map(items -> Page.of(items, Pageable.UNPAGED, (long) items.size()))
+                .map(HttpResponse::ok);
     }
 
 }

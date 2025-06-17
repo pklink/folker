@@ -10,9 +10,7 @@ import java.util.UUID;
 public interface ReleaseRepository {
 
     List<Release> findAll();
-
     Optional<Release> findById(UUID id);
-
     Release save(Release release);
 
 }
