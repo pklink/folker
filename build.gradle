@@ -14,6 +14,8 @@ repositories {
 dependencies {
     annotationProcessor("io.micronaut:micronaut-http-validation")
 
+    // utils
+    implementation("org.apache.commons:commons-lang3:3.17.0")
 
     // Rx
     implementation("io.micronaut.reactor:micronaut-reactor")
