@@ -1,0 +1,21 @@
+meta {
+  name: GET /:id
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/release/:id
+  body: none
+  auth: none
+}
+
+params:path {
+  id: {{id}}
+}
+
+assert {
+  res.body.id: eq {{id}}
+  res.body.title: eq Abbey Road
+  res.body.albumArtist: eq The Beatles
+}

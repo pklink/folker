@@ -1,0 +1,29 @@
+meta {
+  name: POST /create
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/releases/create
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "title": "Abbey Road",
+    "albumArtist": "The Beatles",
+    "medium": "VINYL"
+  }
+}
+
+vars:post-response {
+  id: res.body.id
+}
+
+assert {
+  res.body.id: isString
+  res.body.title: eq Abbey Road
+  res.body.albumArtist: eq The Beatles
+}
