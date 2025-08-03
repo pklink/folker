@@ -15,7 +15,7 @@ public class SearchReleaseQueryHandler {
         this.releaseRepository = releaseRepository;
     }
 
-    public List<Release> fetch(SearchReleasesQuery query) {
+    public List<Release> fetch(SearchReleaseQuery query) {
         return releaseRepository.findAll();
     }
 

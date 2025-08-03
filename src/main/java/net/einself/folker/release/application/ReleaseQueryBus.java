@@ -5,8 +5,8 @@ import jakarta.inject.Singleton;
 import net.einself.folker.core.application.Query;
 import net.einself.folker.release.application.query.FindReleaseQuery;
 import net.einself.folker.release.application.query.FindReleaseQueryHandler;
+import net.einself.folker.release.application.query.SearchReleaseQuery;
 import net.einself.folker.release.application.query.SearchReleaseQueryHandler;
-import net.einself.folker.release.application.query.SearchReleasesQuery;
 
 @Singleton
 public class ReleaseQueryBus {
@@ -20,9 +20,9 @@ public class ReleaseQueryBus {
     }
 
     public <R> R query(Query<R> query) {
-        if (query instanceof SearchReleasesQuery) {
+        if (query instanceof SearchReleaseQuery) {
             //noinspection unchecked
-            return (R) searchReleaseQueryHandler.fetch((SearchReleasesQuery) query);
+            return (R) searchReleaseQueryHandler.fetch((SearchReleaseQuery) query);
         }
 
         if (query instanceof FindReleaseQuery findReleaseQuery) {

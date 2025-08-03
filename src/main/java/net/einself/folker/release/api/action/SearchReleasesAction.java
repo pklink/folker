@@ -6,7 +6,7 @@ import io.micronaut.http.HttpResponse;
 import jakarta.inject.Singleton;
 import net.einself.folker.core.api.Action;
 import net.einself.folker.release.application.ReleaseQueryBus;
-import net.einself.folker.release.application.query.SearchReleasesQuery;
+import net.einself.folker.release.application.query.SearchReleaseQuery;
 import net.einself.folker.release.domain.Release;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public class SearchReleasesAction implements Action<SearchReleasesRequest, Page<
 
     @Override
     public HttpResponse<Page<SearchReleasesResponse>> run(SearchReleasesRequest request) {
-        List<Release> releases = releaseQueryBus.query(new SearchReleasesQuery());
+        List<Release> releases = releaseQueryBus.query(new SearchReleaseQuery());
         List<SearchReleasesResponse> list = releases.stream()
                 .map(searchReleasesActionMapper::toResponse)
                 .toList();

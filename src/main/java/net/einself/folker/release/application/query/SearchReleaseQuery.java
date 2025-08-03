@@ -5,5 +5,5 @@ import net.einself.folker.release.domain.Release;
 
 import java.util.List;
 
-public record SearchReleasesQuery() implements Query<List<Release>> {
+public record SearchReleaseQuery() implements Query<List<Release>> {
 }
