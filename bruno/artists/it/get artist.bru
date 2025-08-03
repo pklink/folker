@@ -1,0 +1,38 @@
+meta {
+  name: get artist
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/artists/:id
+  body: json
+  auth: none
+}
+
+params:path {
+  id: 
+}
+
+body:json {
+  {
+    "name": "Pink Floyd"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.id: isNotEmpty
+  res.body.name: eq Pink Floyd
+}
+
+script:post-response {
+  bru.setVar('id', res.body.id)
+}
+
+tests {
+  test("response has only expected properties", () => {
+    const expectedKeys = ["id", "name"];
+    expect(res.body).to.have.all.keys("id", "name");
+  });
+}
