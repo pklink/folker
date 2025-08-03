@@ -4,8 +4,8 @@ import io.micronaut.http.HttpResponse;
 import jakarta.inject.Singleton;
 import net.einself.folker.core.api.Action;
 import net.einself.folker.core.application.command.CommandResult;
+import net.einself.folker.release.application.ReleaseCommandBus;
 import net.einself.folker.release.application.command.CreateReleaseCommand;
-import net.einself.folker.release.application.command.ReleaseCommandBus;
 import net.einself.folker.release.domain.Release;
 
 @Singleton

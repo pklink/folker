@@ -1,9 +1,11 @@
-package net.einself.folker.release.application.command;
+package net.einself.folker.release.application;
 
 import jakarta.inject.Singleton;
 import net.einself.folker.core.application.command.Command;
 import net.einself.folker.core.application.command.CommandBus;
 import net.einself.folker.core.application.command.CommandResult;
+import net.einself.folker.release.application.command.CreateReleaseCommand;
+import net.einself.folker.release.application.command.CreateReleaseCommandHandler;
 import net.einself.folker.release.domain.Release;
 
 @Singleton

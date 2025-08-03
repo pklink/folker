@@ -5,7 +5,7 @@ import io.micronaut.data.model.Pageable;
 import io.micronaut.http.HttpResponse;
 import jakarta.inject.Singleton;
 import net.einself.folker.core.api.Action;
-import net.einself.folker.release.application.query.ReleaseQueryBus;
+import net.einself.folker.release.application.ReleaseQueryBus;
 import net.einself.folker.release.application.query.SearchReleasesQuery;
 import net.einself.folker.release.domain.Release;
 

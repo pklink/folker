@@ -1,8 +1,10 @@
-package net.einself.folker.release.application.query;
+package net.einself.folker.release.application;
 
 
 import jakarta.inject.Singleton;
 import net.einself.folker.core.application.Query;
+import net.einself.folker.release.application.query.SearchReleaseQueryHandler;
+import net.einself.folker.release.application.query.SearchReleasesQuery;
 
 @Singleton
 public class ReleaseQueryBus {
