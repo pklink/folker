@@ -5,38 +5,28 @@ import org.apache.commons.lang3.StringUtils;
 import org.jmolecules.ddd.annotation.AggregateRoot;
 import org.jmolecules.ddd.annotation.Identity;
 
-import java.util.*;
+import java.util.UUID;
 
 @AggregateRoot
 public class Release {
 
     @Identity
     private final UUID id;
-    private final Set<Artist> artists;
     private String title;
     private String albumArtist;
 
-    public Release(UUID id, String title, String albumArtist, Set<Artist> artists) {
+    public Release(UUID id, String title, String albumArtist) {
         if (id == null) {
             throw new IllegalArgumentException("ID cannot be null");
         }
 
-        if (artists == null) {
-            throw new IllegalArgumentException("Artists cannot be null");
-        }
-
         this.id = id;
-        this.artists = new HashSet<>(artists);
-        changeAlbumArtist(albumArtist);
-        changeTitle(title);
-    }
-
-    public Release(String title, String albumArtist, Set<Artist> artists) {
-        this(UUID.randomUUID(), title, albumArtist, artists);
+        setAlbumArtist(albumArtist);
+        setTitle(title);
     }
 
     public Release(String title, String albumArtist) {
-        this(UUID.randomUUID(), title, albumArtist, new HashSet<>());
+        this(UUID.randomUUID(), title, albumArtist);
     }
 
     public UUID getId() {
@@ -51,26 +41,7 @@ public class Release {
         return title;
     }
 
-    public Set<Artist> getArtists() {
-        return Collections.unmodifiableSet(artists);
-    }
-
-    public void addArtist(Artist artist) {
-        if (artists == null) {
-            throw new IllegalArgumentException("Artists cannot be null");
-        }
-
-        artists.add(artist);
-    }
-
-    public void removeArtist(UUID artistId) {
-        artists.stream()
-                .filter(artist -> Objects.equals(artist.artistId(), artistId))
-                .findFirst()
-                .ifPresent(artists::remove);
-    }
-
-    public void changeAlbumArtist(String albumArtist) {
+    public void setAlbumArtist(String albumArtist) {
         if (StringUtils.isEmpty(albumArtist)) {
             throw new IllegalArgumentException("albumArtist cannot be empty");
         }
@@ -78,7 +49,7 @@ public class Release {
         this.albumArtist = albumArtist;
     }
 
-    public void changeTitle(String title) {
+    public void setTitle(String title) {
         if (StringUtils.isEmpty(title)) {
             throw new IllegalArgumentException("title cannot be empty");
         }

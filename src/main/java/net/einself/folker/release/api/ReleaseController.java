@@ -1,44 +1,33 @@
 package net.einself.folker.release.api;
 
 import io.micronaut.data.model.Page;
-import io.micronaut.data.model.Pageable;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
-import net.einself.folker.release.application.ReleaseMapper;
-import net.einself.folker.release.application.ReleaseService;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import net.einself.folker.release.api.action.*;
 
-@Controller("/releases")
+@Controller
 public class ReleaseController {
 
-    private final ReleaseMapper releaseMapper;
-    private final ReleaseService releaseService;
+    private final CreateReleaseAction createReleaseAction;
+    private final SearchReleasesAction searchReleasesAction;
 
-    public ReleaseController(ReleaseMapper releaseMapper, ReleaseService releaseService) {
-        this.releaseMapper = releaseMapper;
-        this.releaseService = releaseService;
+    public ReleaseController(CreateReleaseAction createReleaseAction, SearchReleasesAction searchReleasesAction) {
+        this.createReleaseAction = createReleaseAction;
+        this.searchReleasesAction = searchReleasesAction;
     }
 
-    @Post
-    public Mono<HttpResponse<CreateReleaseResponse>> create(@Body CreateReleaseRequest request) {
-        return Mono.just(request)
-                .map(releaseMapper::fromRequest)
-                .map(releaseService::create)
-                .map(releaseMapper::toCreateResponse)
-                .map(HttpResponse::ok);
+
+    @Post("/releases/create")
+    public HttpResponse<CreateReleaseResponse> create(@Body CreateReleaseRequest request) {
+        return createReleaseAction.run(request);
     }
 
-    @Get
-    public Mono<HttpResponse<Page<GetAllReleasesResponse>>> getAll() {
-        return Flux.fromStream(releaseService.findAll().stream())
-                .map(releaseMapper::toGetAllReleasesResponseEntry)
-                .collectList()
-                .map(items -> Page.of(items, Pageable.UNPAGED, (long) items.size()))
-                .map(HttpResponse::ok);
+    @Get("/releases")
+    public HttpResponse<Page<SearchReleasesResponse>> getAll() {
+        return searchReleasesAction.run(new SearchReleasesRequest());
     }
 
 }
