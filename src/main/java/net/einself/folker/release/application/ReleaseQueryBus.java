@@ -20,9 +20,9 @@ public class ReleaseQueryBus {
     }
 
     public <R> R query(Query<R> query) {
-        if (query instanceof SearchReleaseQuery) {
+        if (query instanceof SearchReleaseQuery searchReleaseQuery) {
             //noinspection unchecked
-            return (R) searchReleaseQueryHandler.fetch((SearchReleaseQuery) query);
+            return (R) searchReleaseQueryHandler.fetch(searchReleaseQuery);
         }
 
         if (query instanceof FindReleaseQuery findReleaseQuery) {
